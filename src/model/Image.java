@@ -2,7 +2,7 @@ package model;
 
 public interface Image {
 
-    public void getBitmap();
+    public Object bitmap();
     public Image prev();
     public Image next();
 }

@@ -4,6 +4,6 @@ import model.Image;
 
 public interface ImageDisplay {
 
-    public Image Image();
+    public Image image();
     public void show();    
 }

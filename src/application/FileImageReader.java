@@ -1,7 +1,10 @@
 package application;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import model.Image;
 import view.ImageReader;
 
@@ -35,24 +38,30 @@ public class FileImageReader implements ImageReader{
         return imageAt(0);
     }
 
-    private Image imageAt(int index) {
+    private Image imageAt(final int index) {
         return new Image() {
 
             @Override
-            public void getBitmap() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            public Object bitmap() {
+                BufferedImage read;
+                try {
+                    return read = ImageIO.read(fileList[index]);
+                } catch (IOException ex) {
+                    System.out.println("Archivo no encontrado");
+                }
+                return null;
             }
 
             @Override
             public Image prev() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                return imageAt(index > 0 ? index - 1 : fileList.length);
             }
 
             @Override
             public Image next() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                return imageAt(index < fileList.length ? index + 1 : 0);
             }
-        }
+        };
     }
 
 }
