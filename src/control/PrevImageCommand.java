@@ -4,7 +4,11 @@ import view.ImageDisplay;
 
 public class PrevImageCommand implements Command{
 
-    private ImageDisplay imageDisplay;
+    private final ImageDisplay imageDisplay;
+
+    public PrevImageCommand(ImageDisplay imageDisplay) {
+        this.imageDisplay = imageDisplay;
+    }
     
     @Override
     public void execute() {

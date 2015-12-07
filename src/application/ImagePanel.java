@@ -12,19 +12,19 @@ public class ImagePanel extends JPanel implements ImageDisplay{
     public ImagePanel(Image image) {
         this.image = image;
     }
-    
-    @Override
-    public Image image() {
-        return image;
-    }
 
     @Override
     public void show(){
-        
+        super.paint((Graphics) image.bitmap());
     }
     
     @Override
     public void paintComponent(Graphics g){
         g.drawImage((java.awt.Image) image.bitmap(), 0, 0, this);
+    }
+
+    @Override
+    public Image image() {
+        return image;
     }
 }

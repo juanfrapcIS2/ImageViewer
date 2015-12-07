@@ -2,6 +2,7 @@ package application;
 
 import control.Command;
 import control.NextImageCommand;
+import control.PrevImageCommand;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,10 +15,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.Image;
+import view.ImageDisplay;
 
 public class Application extends JFrame {
 
-    private final Map<String,Command> commands = new HashMap<>();
+    private final Map<String, Command> commands = new HashMap<>();
+    private final Map<String, Component> components = new HashMap<>();
 
     
     public static void main(String[] args) {
@@ -39,11 +42,13 @@ public class Application extends JFrame {
     }
 
     private ImagePanel imagePanel() {
-        return new ImagePanel(image());
+        ImagePanel imagePanel = new ImagePanel(image());
+        components.put("imagePanel", imagePanel);
+        return imagePanel;
     }
 
     private Image image() {
-        return new FileImageReader("C:\\Users\\Granfran\\Pictures\\").read();
+        return new FileImageReader("C:\\Users\\Granfran\\Pictures").read();
     }
 
     private Component toolbar() {
@@ -51,24 +56,46 @@ public class Application extends JFrame {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panel.add(PrevButton());
         panel.add(NextButton());
+        return panel;
     }
 
     private JButton NextButton() {
 
         JButton button = new JButton(">");
         button.addActionListener(doCommandNext());
+        button.addActionListener(doCommandPrev());
         return button;
     }
 
-    private ActionListener doCommandNext() {
+    private JButton PrevButton() {
+        JButton button = new JButton("<");
+        return button;
+    }
 
+    private void createCommands() {
+        commands.put("next", new NextImageCommand((ImageDisplay) components.get("imagePanel")));
+        commands.put("prev", new PrevImageCommand((ImageDisplay) components.get("imagePanel")));
+    }
+
+    private ActionListener doCommandNext() {
         return new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new NextImageCommand().execute();
+                commands.get("next").execute();
             }
         };
     }
-    
+
+    private ActionListener doCommandPrev() {
+        return new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                commands.get("prev").execute();
+            }
+        };
+    }
+
+   
 }

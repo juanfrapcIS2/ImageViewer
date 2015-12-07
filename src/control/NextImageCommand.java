@@ -9,7 +9,7 @@ public class NextImageCommand implements Command{
     public NextImageCommand(ImageDisplay imageDisplay) {
         this.imageDisplay = imageDisplay;
     }
-      
+     
     @Override
     public void execute() {
         this.imageDisplay.image().next();

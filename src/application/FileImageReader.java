@@ -27,7 +27,7 @@ public class FileImageReader implements ImageReader{
             @Override
             public boolean accept(File dir, String name) {
                 for (String extension : extensions)
-                    if(extension.equals(name)) return true;
+                    if(name.endsWith(extension)) return true;
                 return false;
             }
         };
@@ -47,7 +47,7 @@ public class FileImageReader implements ImageReader{
                 try {
                     return read = ImageIO.read(fileList[index]);
                 } catch (IOException ex) {
-                    System.out.println("Archivo no encontrado");
+                    System.out.println("Carpeta no encontrada");
                 }
                 return null;
             }
