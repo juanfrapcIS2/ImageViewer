@@ -1,6 +1,5 @@
 package application;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -10,15 +9,15 @@ import view.ImageReader;
 
 public class FileImageReader implements ImageReader{
 
-    private static final String[] extensions = {".jpg",".png",".gif"};
+    private static final String[] extensions = {".jpg", ".gif", ".png", ".JPG"};
     private final File[] fileList;
-
-    public FileImageReader(String path) {
-        this(new File(path));
-    }
 
     public FileImageReader(File folder) {
         this.fileList = folder.listFiles(withImageExtension());
+    }
+    
+    public FileImageReader(String path) {
+        this(new File(path));
     }
     
     private FilenameFilter withImageExtension() {
@@ -26,8 +25,11 @@ public class FileImageReader implements ImageReader{
 
             @Override
             public boolean accept(File dir, String name) {
-                for (String extension : extensions)
-                    if(name.endsWith(extension)) return true;
+                for (String extension : extensions) {
+                    if (name.endsWith(extension)){
+                        return true;                        
+                    }
+                }
                 return false;
             }
         };
@@ -43,9 +45,8 @@ public class FileImageReader implements ImageReader{
 
             @Override
             public Object bitmap() {
-                BufferedImage read;
                 try {
-                    return read = ImageIO.read(fileList[index]);
+                    return ImageIO.read(fileList[index]);
                 } catch (IOException ex) {
                     System.out.println("Carpeta no encontrada");
                 }
@@ -53,13 +54,13 @@ public class FileImageReader implements ImageReader{
             }
 
             @Override
-            public Image prev() {
-                return imageAt(index > 0 ? index - 1 : fileList.length);
+            public Image next() {
+                return index == fileList.length - 1 ? imageAt(0) : imageAt(index + 1);
             }
 
             @Override
-            public Image next() {
-                return imageAt(index < fileList.length ? index + 1 : 0);
+            public Image prev() {
+                return index == 0 ? imageAt(fileList.length - 1) : imageAt(index - 1);
             }
         };
     }

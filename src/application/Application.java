@@ -15,14 +15,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.Image;
-import view.ImageDisplay;
 
 public class Application extends JFrame {
 
     private final Map<String, Command> commands = new HashMap<>();
-    private final Map<String, Component> components = new HashMap<>();
+    private ImagePanel imageDisplay;
 
-    
     public static void main(String[] args) {
         new Application().setVisible(true);
     }
@@ -42,9 +40,8 @@ public class Application extends JFrame {
     }
 
     private ImagePanel imagePanel() {
-        ImagePanel imagePanel = new ImagePanel(image());
-        components.put("imagePanel", imagePanel);
-        return imagePanel;
+        imageDisplay = new ImagePanel(image());
+        return imageDisplay;
     }
 
     private Image image() {
@@ -63,18 +60,18 @@ public class Application extends JFrame {
 
         JButton button = new JButton(">");
         button.addActionListener(doCommandNext());
-        button.addActionListener(doCommandPrev());
         return button;
     }
 
     private JButton PrevButton() {
         JButton button = new JButton("<");
+        button.addActionListener(doCommandPrev());
         return button;
     }
 
     private void createCommands() {
-        commands.put("next", new NextImageCommand((ImageDisplay) components.get("imagePanel")));
-        commands.put("prev", new PrevImageCommand((ImageDisplay) components.get("imagePanel")));
+        commands.put("next", new NextImageCommand(imageDisplay));
+        commands.put("prev", new PrevImageCommand(imageDisplay));
     }
 
     private ActionListener doCommandNext() {

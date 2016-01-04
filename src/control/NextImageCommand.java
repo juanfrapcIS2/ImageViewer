@@ -12,7 +12,7 @@ public class NextImageCommand implements Command{
      
     @Override
     public void execute() {
-        this.imageDisplay.image().next();
+        imageDisplay.show(imageDisplay.image().next());
     }
 
 }

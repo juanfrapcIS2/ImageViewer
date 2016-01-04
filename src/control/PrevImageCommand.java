@@ -12,7 +12,7 @@ public class PrevImageCommand implements Command{
     
     @Override
     public void execute() {
-        this.imageDisplay.image().prev();
+        imageDisplay.show(imageDisplay.image().prev());
     }
 
 }
