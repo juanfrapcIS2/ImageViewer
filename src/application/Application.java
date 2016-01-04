@@ -33,10 +33,11 @@ public class Application extends JFrame {
     private void deployUI() {
         this.setTitle("Image Viewer");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(500,500));
         this.setLocationRelativeTo(null);
         this.getContentPane().add(imagePanel());
-        this.getContentPane().add(toolbar(),BorderLayout.SOUTH);
+        this.getContentPane().add(toolbar(), BorderLayout.SOUTH);
     }
 
     private ImagePanel imagePanel() {

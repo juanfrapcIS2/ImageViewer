@@ -21,7 +21,8 @@ public class ImagePanel extends JPanel implements ImageDisplay{
 
     @Override
     public void paintComponent(Graphics g){
-        g.drawImage((BufferedImage) image.bitmap(), 0, 0, this);
+        super.paintComponent(g);
+        g.drawImage((BufferedImage) image.bitmap(), 0, 0, getWidth(), getHeight(), this);
     }
     
     @Override
